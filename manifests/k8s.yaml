@@ -7,6 +7,7 @@ spec:
   selector:
     matchLabels:
       app: {model_name}-server
+develop
   replicas: 3
   template:
     metadata:
@@ -17,6 +18,7 @@ spec:
       - name: {model_name}-container
         #image: gcr.io/tensorflow-serving/resnet 
         image: docker.io/{docker_user}/{model_name}:{github.sha}
+develop
         ports:
         - containerPort: 80
 ---
@@ -24,12 +26,15 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
+
     run: {model_name}-service
   name: {model_name}-service
+develop
 spec:
   ports:
   - port: 80
     targetPort: 80
   selector:
     app: {model_name}-server
+develop
   type: LoadBalancer
